@@ -30,9 +30,7 @@ function Posts() {
   }, [dispatch, name]);
 
   const carrusel = posts.map((post) => {
-    if (post.media_metadata) {
-      return post.media_metadata;
-    }
+    return post.media_metadata || null;
   });
 
   let values = [];
