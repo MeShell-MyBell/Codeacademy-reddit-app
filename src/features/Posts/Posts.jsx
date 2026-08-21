@@ -40,6 +40,8 @@ function Posts() {
       values = Object.values(post);
       return values;
     }
+  
+    return null;
   });
 
 
@@ -207,9 +209,11 @@ function Posts() {
                             !post.url_overridden_by_dest.includes('jpg') &&
                             !post.url_overridden_by_dest.includes('redd') && (
                               <a
-                                href={post.url_overridden_by_dest}
-                                className="links"
-                                target="_blank"
+                              href={post.url_overridden_by_dest}
+                              className="links"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
                               >
                                 <small className="text-muted links">
                                   {post.url_overridden_by_dest}
