@@ -1,3 +1,4 @@
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const API_ROOT = 'https://dummyjson.com';
@@ -7,18 +8,28 @@ export const loadPosts = createAsyncThunk(
   async (arg = 'popular') => {
     let endpoint;
 
-    if (
-      arg === 'popular' ||
-      arg === 'new' ||
-      arg === 'top' ||
-      arg === 'rising'
-    ) {
-      endpoint = `${API_ROOT}/posts?limit=30`;
-    } else if (arg.startsWith('=')) {
+    // Search
+    if (arg.startsWith('=')) {
       const searchTerm = arg.substring(1).trim();
-      endpoint = `${API_ROOT}/posts/search?q=${encodeURIComponent(searchTerm)}`;
-    } else {
+
+      endpoint = `${API_ROOT}/posts/search?q=${encodeURIComponent(
+        searchTerm
+      )}`;
+    }
+
+    // Category / tag
+    else if (
+      arg !== 'popular' &&
+      arg !== 'new' &&
+      arg !== 'top' &&
+      arg !== 'rising'
+    ) {
       endpoint = `${API_ROOT}/posts/tag/${encodeURIComponent(arg)}`;
+    }
+
+    // Main navigation
+    else {
+      endpoint = `${API_ROOT}/posts?limit=100`;
     }
 
     const response = await fetch(endpoint);
@@ -29,7 +40,46 @@ export const loadPosts = createAsyncThunk(
 
     const json = await response.json();
 
-    return json.posts.map((post) => ({
+    let posts = [...json.posts];
+
+    // POPULAR - most viewed
+    if (arg === 'popular' || !arg) {
+      posts.sort((a, b) => b.views - a.views);
+    }
+
+    // TOP - most liked
+    else if (arg === 'top') {
+      posts.sort(
+        (a, b) =>
+          (b.reactions?.likes || 0) -
+          (a.reactions?.likes || 0)
+      );
+    }
+
+    // NEW - newest post IDs first
+    else if (arg === 'new') {
+      posts.sort((a, b) => b.id - a.id);
+    }
+
+    // RISING - combination of likes and views
+    else if (arg === 'rising') {
+      posts.sort((a, b) => {
+        const scoreA =
+          (a.reactions?.likes || 0) * 2 +
+          (a.views || 0);
+
+        const scoreB =
+          (b.reactions?.likes || 0) * 2 +
+          (b.views || 0);
+
+        return scoreB - scoreA;
+      });
+    }
+
+    // Only display the first 30
+    posts = posts.slice(0, 30);
+
+    return posts.map((post) => ({
       id: post.id,
       title: post.title,
       selftext: post.body,
@@ -76,7 +126,9 @@ export const postsSlice = createSlice({
 });
 
 export const selectPosts = (state) => state.posts.posts;
+
 export const selectIsLoading = (state) => state.posts.isLoading;
+
 export const selectHasError = (state) => state.posts.hasError;
 
 export default postsSlice.reducer;
