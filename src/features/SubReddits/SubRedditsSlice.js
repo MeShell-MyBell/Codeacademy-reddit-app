@@ -3,24 +3,33 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 export const loadSubReddits = createAsyncThunk(
   'subReddits/loadSubReddits',
   async () => {
-    const response = await fetch(`https://www.reddit.com/subreddits.json`);
+    const response = await fetch('https://dummyjson.com/posts/tags');
+
+    if (!response.ok) {
+      throw new Error('Failed to load categories');
+    }
+
     const json = await response.json();
-    return json.data.children.map((subreddit) => subreddit.data);
+
+    return json.map((tag, index) => ({
+      id: index,
+      display_name: tag.slug,
+      name: tag.name,
+    }));
   }
 );
 
 export const subRedditsSlice = createSlice({
   name: 'subReddits',
+
   initialState: {
     subRedditsArray: [],
     isLoading: false,
     hasError: false,
   },
-  reducers: {
-    addSubReddits: (state) => {
-      state.subRedditsArray.push('Hola');
-    },
-  },
+
+  reducers: {},
+
   extraReducers: (builder) => {
     builder
       .addCase(loadSubReddits.pending, (state) => {
@@ -38,10 +47,13 @@ export const subRedditsSlice = createSlice({
   },
 });
 
-export const selectSubReddits = (state) => state.subReddits.subRedditsArray;
-export const selectIsLoading = (state) => state.subReddits.isLoading;
-export const selectHasError = (state) => state.subReddits.hasError;
+export const selectSubReddits = (state) =>
+  state.subReddits.subRedditsArray;
 
-export const { addSubReddits } = subRedditsSlice.actions;
+export const selectIsLoading = (state) =>
+  state.subReddits.isLoading;
+
+export const selectHasError = (state) =>
+  state.subReddits.hasError;
 
 export default subRedditsSlice.reducer;
