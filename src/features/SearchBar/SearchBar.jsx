@@ -1,52 +1,41 @@
-import React, { useEffect }  from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-//CSS
 import './SearchBar.css';
+
 import {
   clearSearchTerm,
   selectSearchTerm,
   setSearchTerm,
 } from './SearchBarSlice';
-import {  useHistory  } from 'react-router-dom';
 
- 
+import { useHistory } from 'react-router-dom';
 
 function SearchBar() {
   const dispatch = useDispatch();
   const searchTerm = useSelector(selectSearchTerm);
-  const history = useHistory()
-
-
-
-  
-
+  const history = useHistory();
 
   const onSearchChangeHandler = (e) => {
-    e.preventDefault();
     dispatch(setSearchTerm(e.target.value));
   };
 
- const onSearchTermClearHandler = (e) => {
-    if (e.key === 'Enter') {
-      history.push(`=${searchTerm}`)
+  const onSearchTermHandler = (e) => {
+    if (e.key === 'Enter' && searchTerm.trim() !== '') {
+      history.push(`/=${searchTerm.trim()}`);
       dispatch(clearSearchTerm());
     }
   };
 
-
-  
   return (
-    <div className="form-inline my-2 search" >
-      
+    <div className="form-inline my-2 search">
       <input
         value={searchTerm}
         onChange={onSearchChangeHandler}
-        onKeyPress={onSearchTermClearHandler}
+        onKeyDown={onSearchTermHandler}
         className="form-control search"
         placeholder="🔍 Search something interesting..."
-        aria-label="Search something interesting.."
+        aria-label="Search something interesting"
       />
-      
     </div>
   );
 }
