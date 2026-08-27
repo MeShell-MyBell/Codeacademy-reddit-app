@@ -1,122 +1,160 @@
-
- .post-image-container {
-    max-width: 700px;
-    overflow: hidden;
-    max-height: 800px;
-  }
-  
-  .post-image-container .post-image {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    
-  }
-
-  .post-video{
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
-
-
-.rows{
-    max-width: 700px;
-    background-color: #00000026;
+.post-image-container {
+  max-width: 700px;
+  overflow: hidden;
+  max-height: 800px;
+  border-radius: 10px;
+  margin-top: 12px;
 }
 
-.link-subreddit{
-  
- 
-  
+.post-image-container .post-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+.post-video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Individual post card */
+.rows {
+  max-width: 700px;
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rows:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Subreddit section */
+.link-subreddit {
   margin-left: -5px;
   margin-top: -10px !important;
 }
 
-.link-small{
+.link-small {
   font-weight: 700 !important;
-  color: white !important;
-  background-color: #FF4500;
-  padding: 3px;
-  border-radius: 10px;
+  color: #ffffff !important;
+  background-color: #ff4500;
+  padding: 4px 9px;
+  border-radius: 15px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
 }
 
-.link-small:hover{
+.link-small:hover {
+  background-color: #e03d00;
+  text-decoration: none;
+}
+
+/* General links */
+.links {
+  font-weight: 600 !important;
+  color: #2563eb !important;
+  text-decoration: none;
+}
+
+.links:hover {
+  color: #1d4ed8 !important;
   text-decoration: underline;
 }
 
-
-.links{
-  font-weight: 500 !important;
-  color: blueviolet !important;
-}
-
-.links:hover{
-  text-decoration: underline;
-}
-
-.author{
+/* Author information */
+.author {
   font-size: 14px;
   font-weight: 500;
-  color: #253659 !important;
+  color: #64748b !important;
 }
 
-.markdown a{
-  color: blueviolet;
-  text-decoration: underline !important;
-
-}
-
-.markdown a:hover{
-  color: blueviolet;
+/* Links inside Reddit markdown posts */
+.markdown a {
+  color: #2563eb;
   text-decoration: underline !important;
 }
 
-.btn-comments{
+.markdown a:hover {
+  color: #1d4ed8;
+}
+
+/* Comments button */
+.btn-comments {
   background-color: #253659 !important;
-    font-weight: 600; 
-    margin-bottom: 0px;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none !important;
+  border-radius: 8px;
+  padding: 7px 12px;
+  margin-bottom: 0;
+  transition: background-color 0.2s ease;
 }
 
-.btn-comments:hover{
-  color: aqua;
-  border-color: aqua;
+.btn-comments:hover {
+  background-color: #334e7d !important;
+  color: #ffffff !important;
 }
 
-.btn-comments:focus{
-  color: aqua;
-  border-color: aqua;
+.btn-comments:focus {
+  background-color: #334e7d !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
 }
 
-.num-comments{
-  color: aqua;
+/* Comment number */
+.num-comments {
+  color: #ff4500;
+  font-weight: 700;
 }
+
+
+/* ---------- MOBILE ---------- */
 
 @media only screen and (max-width: 480px) {
-  .rows{
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-    padding-top: 0px !important;
-    margin: 0px !important;
-    margin-bottom: 10px !important;
+  .rows {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    margin: 0 0 12px 0 !important;
     width: 100% !important;
+    border-radius: 8px;
   }
 
-  .container-post{
-    margin: 0px !important;
-    padding: 0px !important;
+  .container-post {
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  .card-body{
-    padding: 8px !important;
+  .card-body {
+    padding: 12px !important;
+  }
+
+  .post-image-container {
+    border-radius: 0;
+  }
+
+  .post-image-container .post-image {
+    border-radius: 0;
   }
 }
 
+
 @media only screen and (max-width: 766px) {
-  .posted{
+  .posted {
     margin-bottom: 10px !important;
   }
 
-  .div-posted{
+  .div-posted {
     margin-top: -10px !important;
   }
 }
